@@ -12,9 +12,9 @@ import misc.PPMRead;
  */
 public class Layer {
   private String name;
-  private model.RGB[][] image;
-  private model.RGB[][] pixels;
-  private model.Filter filter;
+  private RGB[][] image;
+  private RGB[][] pixels;
+  private Filter filter;
 
   /**
    * Initializes a Layer class.
@@ -140,14 +140,15 @@ public class Layer {
       default:
         throw new IllegalArgumentException("Given file is not ppm, jpg, or png.");
     }
-    image.readFile();
+    try{
+      image.readFile();
+    } catch (IOException e){
+      throw new IOException("Image could not be read");
+    }
     model.RGB[][] imagePixels = image.getArray();
     for (int i = y; i < this.pixels.length; i++) {
       for (int j = x; j < this.pixels[0].length; j++) {
         if ((i - y) < imagePixels.length && (j - x) < imagePixels[i].length) {
-          if (imagePixels[i][j] == null) {
-            System.out.println("is null at: " + this.pixels.length + " " + this.pixels[0].length);
-          }
           this.image[i][j] = imagePixels[i - y][j - x].imageWithBackground(this.image[i][j]);
           this.pixels[i][j] = imagePixels[i - y][j - x].imageWithBackground(this.pixels[i][j]);
         }

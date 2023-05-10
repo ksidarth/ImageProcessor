@@ -261,7 +261,9 @@ public class SwingGUIView extends JFrame implements ActionListener, ListSelectio
         break;
       }
       case "Quit":
-        if (!this.imageSaved || !this.projectSaved) {
+        if (this.imageSaved || this.projectSaved) {
+          System.exit(0);
+        } else {
           JLabel quitBox = new JLabel("Image and/or project hasn't been saved. " +
                 "Do you still wish to exit?");
           int quitResponse = JOptionPane.showConfirmDialog(null, quitBox,
@@ -269,8 +271,6 @@ public class SwingGUIView extends JFrame implements ActionListener, ListSelectio
           if (quitResponse == 0) {
             System.exit(0);
           }
-        } else {
-          System.exit(0);
         }
         break;
       default:
